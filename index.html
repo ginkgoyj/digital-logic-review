@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数字电路复习导图</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #FAF6F0;
+    --card: #FFFFFF;
+    --sage: #7C9A6E;
+    --sage-light: #E8F0E4;
+    --tea: #5B7553;
+    --parchment: #F5F0E8;
+    --text: #2D2D2D;
+    --text-muted: #6B6B6B;
+    --border: #E0D8CC;
+    --shadow: rgba(0,0,0,0.06);
+  }
+
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  .page { display: none; max-width: 900px; margin: 0 auto; padding: 24px 20px 60px; }
+  .page.active { display: block; }
+
+  .site-title {
+    text-align: center;
+    padding: 40px 0 12px;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--tea);
+    letter-spacing: 2px;
+  }
+  .site-sub {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 36px;
+  }
+
+  .toc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  .toc-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 24px;
+    cursor: pointer;
+    transition: box-shadow 0.2s, border-color 0.2s;
+    position: relative;
+  }
+  .toc-card:hover {
+    box-shadow: 0 4px 16px var(--shadow);
+    border-color: var(--sage);
+  }
+  .toc-card .num {
+    display: inline-block;
+    width: 28px; height: 28px;
+    line-height: 28px;
+    text-align: center;
+    background: var(--sage-light);
+    color: var(--tea);
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .toc-card h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .toc-card .desc {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--sage);
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 6px 0;
+    margin-bottom: 20px;
+    font-family: inherit;
+    transition: color 0.15s;
+  }
+  .back-btn:hover { color: var(--tea); }
+  .back-btn svg { width: 16px; height: 16px; }
+
+  .detail-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--tea);
+    margin-bottom: 28px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--sage-light);
+  }
+
+  .section-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+  .section-block h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--tea);
+    margin-bottom: 12px;
+    padding-left: 10px;
+    border-left: 3px solid var(--sage);
+  }
+  .section-block p, .section-block li {
+    font-size: 15px;
+    line-height: 1.8;
+  }
+  .section-block ul, .section-block ol {
+    padding-left: 20px;
+    margin-top: 6px;
+  }
+  .section-block li { margin-bottom: 4px; }
+
+  .formula {
+    background: var(--parchment);
+    border-radius: 6px;
+    padding: 10px 16px;
+    margin: 8px 0;
+    font-family: "Times New Roman", "STIX Two Math", serif;
+    font-size: 15px;
+    line-height: 2;
+    overflow-x: auto;
+  }
+
+  .tip {
+    background: #FFF8E7;
+    border-left: 3px solid #E6C86E;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 16px;
+    margin: 10px 0;
+    font-size: 14px;
+    color: #7A6520;
+  }
+
+  .example {
+    background: var(--sage-light);
+    border-radius: 6px;
+    padding: 10px 16px;
+    margin: 8px 0;
+    font-size: 14px;
+  }
+
+  table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  table.data-table th, table.data-table td {
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    text-align: center;
+  }
+  table.data-table th {
+    background: var(--sage-light);
+    color: var(--tea);
+    font-weight: 600;
+  }
+
+  .img-block {
+    text-align: center;
+    margin: 12px 0;
+  }
+  .img-block img {
+    max-width: 100%;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+
+  @media (max-width: 600px) {
+    .toc-grid { grid-template-columns: 1fr; }
+    .site-title { font-size: 22px; }
+    .detail-title { font-size: 20px; }
+    .section-block { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== 目录页 ==================== -->
+<div class="page active" id="page-toc">
+  <div class="site-title">数字电路复习导图</div>
+  <div class="site-sub">点击板块查看详细知识点</div>
+  <div class="toc-grid">
+    <div class="toc-card" onclick="go('s1')">
+      <div class="num">一</div>
+      <h3>数制的概念</h3>
+      <div class="desc">基数、权、常用数制</div>
+    </div>
+    <div class="toc-card" onclick="go('s2')">
+      <div class="num">二</div>
+      <h3>数制间的转换</h3>
+      <div class="desc">按权展开、除基取余、二/八/十六互转</div>
+    </div>
+    <div class="toc-card" onclick="go('s3')">
+      <div class="num">三</div>
+      <h3>二进制算术运算</h3>
+      <div class="desc">原码、反码、补码、补码运算、溢出</div>
+    </div>
+    <div class="toc-card" onclick="go('s4')">
+      <div class="num">四</div>
+      <h3>常用编码</h3>
+      <div class="desc">BCD码、格雷码及其转换</div>
+    </div>
+    <div class="toc-card" onclick="go('s5')">
+      <div class="num">五</div>
+      <h3>逻辑代数的基本运算</h3>
+      <div class="desc">与、或、非、复合运算、位操作用途</div>
+    </div>
+    <div class="toc-card" onclick="go('s6')">
+      <div class="num">六</div>
+      <h3>逻辑代数的公式和定理</h3>
+      <div class="desc">基本公式、常用公式</div>
+    </div>
+    <div class="toc-card" onclick="go('s7')">
+      <div class="num">七</div>
+      <h3>逻辑函数及其表示方法</h3>
+      <div class="desc">真值表、函数式、最小项、最大项</div>
+    </div>
+    <div class="toc-card" onclick="go('s8')">
+      <div class="num">八</div>
+      <h3>逻辑函数的化简</h3>
+      <div class="desc">化简目标、公式化简法</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 一、数制的概念 ==================== -->
+<div class="page" id="page-s1">
+  <button class="back-btn" onclick="go('toc')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>返回目录</button>
+  <div class="detail-title">一、数制的概念</div>
+
+  <div class="section-block">
+    <h4>1. 数制的定义</h4>
+    <p>数制，又称"计数制"，指用一组固定的符号和统一的规则来表示数值的方法。</p>
+    <p>数制关注的内容：每一位的构成（使用什么符号即数码）和进位的规则。</p>
+  </div>
+
+  <div class="section-block">
+    <h4>2. 基本概念</h4>
+    <ul>
+      <li><strong>基数</strong> —— 使用的数码的个数，即每位最多能用多少个符号来表示。基数是 N 则称为 N 进制，即"逢 N 进一"。</li>
+      <li><strong>权</strong> —— 每一位的 1 代表的大小，即 N<sup>i</sup>（N 为基数，i 为位序号）。</li>
+    </ul>
+  </div>
+
+  <div class="section-block">
+    <h4>3. 常用数制</h4>
+    <table class="data-table">
+      <tr><th>数制</th><th>基数</th><th>数码</th><th>逢几进一</th><th>后缀标记</th></tr>
+      <tr><td>二进制</td><td>2</td><td>0, 1</td><td>逢2进1</td><td>B</td></tr>
+      <tr><td>八进制</td><td>8</td><td>0~7</td><td>逢8进1</td><td>O / Q</td></tr>
+      <tr><td>十进制</td><td>10</td><td>0~9</td><td>逢10进1</td><td>D</td></tr>
+      <tr><td>十六进制</td><td>16</td><td>0~9, A~F</td><td>逢16进1</td><td>H</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== 二、数制间的转换 ==================== -->
+<div class="page" id="page-s2">
+  <button class="back-btn" onclick="go('toc')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>返回目录</button>
+  <div class="detail-title">二、数制间的转换</div>
+
+  <div class="section-block">
+    <h4>1. 任意进制 → 十进制（按权展开法）</h4>
+    <p>只需要按照 D = Σ k<sub>i</sub> × N<sup>i</sup> 展开即可。其中 k<sub>i</sub> 为第 i 位的系数，N<sup>i</sup> 为第 i 位的权，N 为基数。</p>
+    <div class="example">
+      例：(1011.01)<sub>2</sub> = 1×2³ + 0×2² + 1×2¹ + 1×2⁰ + 0×2⁻¹ + 1×2⁻² = 8+2+1+0.25 = 11.25
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h4>2. 十进制 → 二进制</h4>
+    <p><strong>整数部分：</strong>反复除 2 取余数，从右向左排列（从低位到高位排列）。</p>
+    <p><strong>小数部分：</strong>反复乘 2 取整数部分，从左向右排列（从高位到低位排列）。</p>
+    <div class="example">
+      例：(173.8125)<sub>10</sub> → 二进制<br>
+      整数部分：173 ÷ 2 = 86…1, 86 ÷ 2 = 43…0, 43 ÷ 2 = 21…1, 21 ÷ 2 = 10…1, 10 ÷ 2 = 5…0, 5 ÷ 2 = 2…1, 2 ÷ 2 = 1…0, 1 ÷ 2 = 0…1 → 10101101<br>
+      小数部分：0.8125×2=1.625 取1, 0.625×2=1.25 取1, 0.25×2=0.5 取0, 0.5×2=1.0 取1 → .1101<br>
+      结果：(10101101.1101)<sub>2</sub>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h4>3. 二进制 ↔ 八进制 / 十六进制</h4>
+    <p><strong>二→八：</strong>从小数点向两边，每 3 位一组，不足补 0，每组转成一个八进制数码。</p>
+    <p><strong>二→十六：</strong>从小数点向两边，每 4 位一组，不足补 0，每组转成一个十六进制数码。</p>
+    <p><strong>反过来：</strong>八/十六→二，每一位展开成对应的 3/4 位二进制即可。</p>
+    <div class="example">
+      例：(01011110 10110010)<sub>2</sub><br>
+      → 每4位一组：0101 1110 1011 0010<br>
+      → (5EB2)<sub>16</sub>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 三、二进制算术运算 ==================== -->
+<div class="page" id="page-s3">
+  <button class="back-btn" onclick="go('toc')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>返回目录</button>
+  <div class="detail-title">三、二进制算术运算</div>
+
+  <div class="section-block">
+    <h4>1. 运算特点</h4>
+    <ul>
+      <li>和十进制数运算的规则基本相同，区别在于"逢二进一"。</li>
+      <li>乘法和除法可以转化为移位操作与加减操作。</li>
+      <li>通过补码运算（即将引入的概念），可以将减法运算转换为加法运算。因此，数字电路普遍采用二进制进行算术运算。</li>
+    </ul>
+  </div>
+
+  <div class="section-block">
+    <h4>2. 原码、反码、补码</h4>
+    <p><strong>表示正负：</strong>在前面增加一个符号位，0 表示正数，1 表示负数。符号位的 0/1 不代表大小，只是代表正负。</p>
+    <p><strong>转换关系：</strong></p>
+    <ul>
+      <li>正数（符号位为 0）：原码 = 反码 = 补码</li>
+      <li>负数（符号位为 1）：原码 → 反码为所有数字位取反，补码等于反码加 1</li>
+      <li>补码的补码即为原码</li>
+    </ul>
+    <div class="tip">
+      <strong>易错点：</strong><br>
+      ① 反码取反是指对数字位取反，不改变符号位！例如 -7 即 1111 的反码是 1000，不是 0000。<br>
+      ② 补码是不对称的：例如补码为 1000 代表 -8，而不代表 -0！即同样位数的二进制补码，负数会比正数"多一个"。<br>
+      ③ 补码的"加1"指的是在最低位加 1 的二进制加法运算，不是指数值 1。如果含有小数部分，1 是加在整体的最右边。
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h4>3. 补码加法运算步骤</h4>
+    <p>利用二进制补码运算求解带符号数的加法运算：</p>
+    <ol>
+      <li><strong>Step 1：</strong>分析需要使用多少个数字位（不能忽略！）</li>
+      <li><strong>Step 2：</strong>用带符号位的二进制数表示，求解每个二进制数的补码</li>
+      <li><strong>Step 3：</strong>对补码进行加法运算，再对结果求补码，即为最终结果</li>
+    </ol>
+    <div class="tip">
+      易错：注意最后一步，对补码进行加法运算时，数字位最高位产生的进位要进到符号位上去！（教材中描述的"舍弃产生的进位"指的是舍弃符号位产生的进位）
+    </div>
+    <div class="example">
+      例：用补码计算 13 - 10<br>
+      分析：13 和 10 都 &lt; 16，需要 4 个数字位加 1 个符号位<br>
+      +13 补码：0 01101，-10 补码：1 10110<br>
+      相加：0 01101 + 1 10110 = 0 00011（符号位进位舍弃）<br>
+      结果补码 0 00011 → 正数，即 +3 ✓
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h4>4. 溢出判断</h4>
+    <ul>
+      <li>两个无符号数相加，如果最高位产生进位输出，则肯定发生溢出。</li>
+      <li>两个最高位不同的补码进行相加运算，肯定不会产生溢出。</li>
+      <li>两个补码进行相加运算，如果最高位产生进位输出，不一定发生溢出（区别于无符号数！）。</li>
+      <li>两个补码的减法运算可以用加法器来实现。</li>
+    </ul>
+    <div class="example">
+      例3 (1)：已知 A 的原码为 011010，则 2A 对应的 8 位原码形式为 00110100，-A 的 8 位补码为 11100110。<br>
+      例3 (2)：10 位二进制补码能够表示的数值范围是 +511 ~ -512。（2⁹ = 512）
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 四、常用编码 ==================== -->
+<div class="page" id="page-s4">
+  <button class="back-btn" onclick="go('toc')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>返回目录</button>
+  <div class="detail-title">四、常用编码</div>
+
+  <div class="section-block">
+    <h4>1. BCD码（二—十进制代码）</h4>
+    <p>Binary-Coded Decimal：用四位二进制代码（最多 16 个，选择其中的 10 个）来表示 0~9。</p>
+
+    <table class="data-table">
+      <tr><th>十进制数</th><th>8421码</th><th>余3码</th><th>2421码</th><th>5211码</th><th>余3循环码</th></tr>
+      <tr><td>0</td><td>0000</td><td>0011</td><td>0000</td><td>0000</td><td>0010</td></tr>
+      <tr><td>1</td><td>0001</td><td>0100</td><td>0001</td><td>0001</td><td>0110</td></tr>
+      <tr><td>2</td><td>0010</td><td>0101</td><td>0010</td><td>0100</td><td>0111</td></tr>
+      <tr><td>3</td><td>0011</td><td>0110</td><td>0011</td><td>0101</td><td>0101</td></tr>
+      <tr><td>4</td><td>0100</td><td>0111</td><td>0100</td><td>0111</td><td>0100</td></tr>
+      <tr><td>5</td><td>0101</td><td>1000</td><td>1011</td><td>1000</td><td>1100</td></tr>
+      <tr><td>6</td><td>0110</td><td>1001</td><td>1100</td><td>1001</td><td>1101</td></tr>
+      <tr><td>7</td><td>0111</td><td>1010</td><td>1101</td><td>1011</td><td>1111</td></tr>
+      <tr><td>8</td><td>1000</td><td>1011</td><td>1110</td><td>1101</td><td>1110</td></tr>
+      <tr><td>9</td><td>1001</td><td>1100</td><td>1111</td><td>1111</td><td>1010</td></tr>
+    </table>
+
+    <p style="margin-top:10px"><strong>要点：</strong></p>
+    <ul>
+      <li>8421、2421、5211 是<strong>有权码</strong>，每个数字指的是每个位的权。</li>
+      <li>余3码是<strong>无权码</strong>，指在 8421 码基础上加 3，即用 3~12 对应的二进制数来表示 0~9。</li>
+      <li>余3循环码是取四位格雷码中的 3~12 部分。</li>
+    </ul>
+  </div>
+
+  <div class="section-block">
+    <h4>2. 格雷码（循环码）</h4>
+    <p><strong>核心特点：</strong>相邻的代码只有一位改变状态。这是格雷码最大的特点和优点。</p>
+    <p>应用：减少代码转换过程中的过渡噪声。</p>
+
+    <table class="data-table">
+      <tr><th>编码顺序</th><th>四位二进制数</th><th>格雷码</th></tr>
+      <tr><td>0</td><td>0000</td><td>0000</td></tr>
+      <tr><td>1</td><td>0001</td><td>0001</td></tr>
+      <tr><td>2</td><td>0010</td><td>0011</td></tr>
+      <tr><td>3</td><td>0011</td><td>0010</td></tr>
+      <tr><td>4</td><td>0100</td><td>0110</td></tr>
+      <tr><td>5</td><td>0101</td><td>0111</td></tr>
+      <tr><td>6</td><td>0110</td><td>0101</td></tr>
+      <tr><td>7</td><td>0111</td><td>0100</td></tr>
+      <tr><td>8</td><td>1000</td><td>1100</td></tr>
+      <tr><td>9</td><td>1001</td><td>1101</td></tr>
+      <tr><td>10</td><td>1010</td><td>1111</td></tr>
+      <tr><td>11</td><td>1011</td><td>1110</td></tr>
+      <tr><td>12</td><td>1100</td><td>1010</td></tr>
+      <tr><td>13</td><td>1101</td><td>1011</td></tr>
+      <tr><td>14</td><td>1110</td><td>1001</td></tr>
+      <tr><td>15</td><td>1111</td><td>1000</td></tr>
+    </table>
+    <div class="tip">重点是理解编码的规则和特点，不要死记硬背。观察 0 和 15、1 和 14、…… x 和 15-x 的格雷码特点。</div>
+  </div>
+
+  <div class="section-block">
+    <h4>3. 二进制数与格雷码的转换</h4>
+    <p><strong>二进制 → 格雷码：</strong>保留最高位不变，从左边开始，依次将每一位二进制码中的值与右边一位二进制码中的值异或（⊕），作为右边一位格雷码中的值。</p>
+    <div class="example">
+      例：自然二进制码 1 0 1 1 0<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ ⊕ ⊕ ⊕ ⊕<br>
+      格雷码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1 1 1 0 1
+    </div>
+    <p><strong>格雷码 → 二进制：</strong>保留格雷码的最高位作为自然二进制码的最高位，从左边开始，依次将每一位二进制码中的值与右边一位格雷码中的值异或，即二进制转化至格雷码的逆运算。</p>
+    <div class="example">
+      例：格雷码&nbsp;&nbsp;&nbsp;&nbsp; 1 1 1 0 1<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓ ⊕ ⊕ ⊕ ⊕<br>
+      自然二进制码：1 0 1 1 0
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 五、逻辑代数的基本运算 ==================== -->
+<div class="page" id="page-s5">
+  <button class="back-btn" onclick="go('toc')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>返回目录</button>
+  <div class="detail-title">五、逻辑代数的基本运算</div>
+
+  <div class="section-block">
+    <h4>1. 三种基本运算</h4>
+    <table class="data-table">
+      <tr><th></th><th>表达式</th><th>逻辑关系含义</th></tr>
+      <tr><td><strong>与 AND</strong></td><td>A·B（简写 AB）</td><td>全部条件同时具备，结果才发生</td></tr>
+      <tr><td><strong>或 OR</strong></td><td>A + B</td><td>条件至少有一个满足，结果就发生</td></tr>
+      <tr><td><strong>非 NOT</strong></td><td>A' 或 Ā</td><td>条件具备结果不发生，条件不具备结果发生（对立关系）</td></tr>
+    </table>
+
+    <h4 style="margin-top:18px">真值表</h4>
+    <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:8px;">
+      <table class="data-table" style="flex:1; min-width:120px;">
+        <tr><th>A</th><th>B</th><th>Y(与)</th></tr>
+        <tr><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>0</td><td>1</td><td>0</td></tr>
+        <tr><td>1</td><td>0</td><td>0</td></tr>
+        <tr><td>1</td><td>1</td><td>1</td></tr>
+      </table>
+      <table class="data-table" style="flex:1; min-width:120px;">
+        <tr><th>A</th><th>B</th><th>Y(或)</th></tr>
+        <tr><td>0</td><td>0</td><td>0</td></tr>
+        <tr><td>0</td><td>1</td><td>1</td></tr>
+        <tr><td>1</td><td>0</td><td>1</td></tr>
+        <tr><td>1</td><td>1</td><td>1</td></tr>
+      </table>
+      <table class="data-table" style="flex:1; min-width:100px;">
+        <tr><th>A</th><th>Y(非)</th></tr>
+        <tr><td>0</td><td>1</td></tr>
+        <tr><td>1</td><td>0</td></tr>
+      </table>
+    </div>
+    <div class="img-block" style="margin-top:12px">
+      <img src="屏幕截图 2026-06-07 160005.png" alt="三种基本运算符号">
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h4>2. 复合逻辑运算</h4>
+    <p><strong>与非</strong> —— "先与再非"，Y = (A·B)'</p>
+    <p><strong>或非</strong> —— "先或再非"，Y = (A+B)'</p>
+    <p><strong>与或非</strong> —— "先与再或再非"，Y = (A·B + C·D)'</p>
+    <div class="img-block">
+      <img src="Screenshot_2026-06-09-10-13-53-64_149003a2d400f6a.jpg" alt="与非、或非、与或非符号">
+    </div>
+
+    <p style="margin-top:12px"><strong>异或 ⊕</strong> —— 不同时输出 1，相同时输出 0</p>
+    <p><strong>同或 ⊙</strong> —— 相同时输出 1，不同时输出 0</p>
+    <p>异或和同或两种运算关系是对立（互补）的，即异或取反即为同或。</p>
+    <p>异或和同或都可以用基本的与、或、非运算关系表示：</p>
+    <div class="formula">
+      Y = A ⊕ B = A'B + AB'<br>
+      Y = A ⊙ B = AB + A'B'
+    </div>
+    <div class="img-block">
+      <img src="Screenshot_2026-06-09-10-14-40-07_149003a2d400f6a.jpg" alt="异或和同或的符号与真值表">
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h4>3. 与、或、非、异或的位操作用途</h4>
+    <ul>
+      <li><strong>与运算 AND：</strong>可以用来将指定的位置 0。任何变量和 0 相与都为 0，任何变量和 1 相与不改变此变量。<br>例：想将 10111101 的第五位和第六位（从右往左）置零，则可以 (10111101) AND (11001111)。</li>
+      <li><strong>或运算 OR：</strong>可以用来将指定的位置 1。和与运算刚好相反，任何变量和 0 相或都不改变此变量，任何变量和 1 相或都为 1。</li>
+      <li><strong>非运算 NOT：</strong>用于取反，但是只能同时将整体取反，不能将指定位取反。</li>
+      <li><strong>异或运算 XOR：</strong>用于指定位的取反。任何变量与 0 异或都不改变此变量，任何变量与 1 异或得到的是反变量。<br>例：想将 10111101 的低四位取反，则可以 (10111101) XOR (00001111)。</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==================== 六、逻辑代数的公式和定理 ==================== -->
+<div class="page" id="page-s6">
+  <button class="back-btn" onclick="go('toc')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>返回目录</button>
+  <div class="detail-title">六、逻辑代数的公式和定理</div>
+
+  <div class="section-block">
+    <h4>1. 逻辑代数的基本公式</h4>
+    <table class="data-table">
+      <tr><th>序号</th><th>公式</th><th>序号</th><th>公式</th></tr>
+      <tr><td>1</td><td>0·A = 0</td><td>10</td><td>1' = 0；0' = 1</td></tr>
+      <tr><td>2</td><td>1·A = A</td><td>11</td><td>1 + A = 1</td></tr>
+      <tr><td>3</td><td>A·A = A</td><td>12</td><td>0 + A = A</td></tr>
+      <tr><td>4</td><td>A·A' = 0</td><td>13</td><td>A + A = A</td></tr>
+      <tr><td>5</td><td>AB = BA</td><td>14</td><td>A + A' = 1</td></tr>
+      <tr><td>6</td><td>A(BC) = (AB)C</td><td>15</td><td>A + B = B + A</td></tr>
+      <tr style="background:#E8F0E4"><td><strong>7</strong></td><td><strong>A(B+C) = AB + AC</strong></td><td><strong>16</strong></td><td><strong>A + (B+C) = (A+B) + C</strong></td></tr>
+      <tr style="background:#E8F0E4"><td><strong>8</strong></td><td><strong>(AB)' = A' + B'</strong></td><td><strong>17</strong></td><td><strong>A + BC = (A+B)(A+C)</strong></td></tr>
+      <tr><td>9</td><td>(A')' = A</td><td><strong>18</strong></td><td><strong>(A+B)' = A'B'</strong></td></tr>
+    </table>
+    <div class="tip">绿色高亮行是需要特别强调的公式：7 和 17 为分配律，8 和 18 为反演律（德·摩根定律）。</div>
+  </div>
+
+  <div class="section-block">
+    <h4>2. 需要强调的基本公式 —— 分配律</h4>
+    <div class="formula">
+      A(B + C) = AB + AC<br>
+      A + BC = (A + B)(A + C)
+    </div>
+    <p>用途：将"混杂"在一起的变量分离，将逻辑函数表达式化成"与或"形式和"或与"形式；在后面学习逻辑函数的"最小项之和"和"最大项之积"表示时非常有用！</p>
+  </div>
+
+  <div class="section-block">
+    <h4>3. 需要强调的基本公式 —— 反演律（德·摩根定律）</h4>
+    <div class="formula">
+      (AB)' = A' + B'<br>
+      (A + B)' = A'B'
+    </div>
+    <p>记忆方法："与的非等于非的或，或的非等于非的与"</p>
+    <p>与在概率论课程中学习的德摩根定律一致，即"交的反等于反的并，并的反等于反的交"。</p>
+    <p>用途：实现与运算和或运算之间的转换，在后面对函数式进行特定形式的变换时非常有用。</p>
+  </div>
+
+  <div class="section-block">
+    <h4>4. 逻辑代数的常用公式</h4>
+    <table class="data-table">
+      <tr><th>序号</th><th>公式</th><th>说明</th></tr>
+      <tr><td>21</td><td>A + AB = A</td><td>吸收律</td></tr>
+      <tr><td>22</td><td>A + A'B = A + B</td><td>消去律</td></tr>
+      <tr><td>23</td><td>AB + AB' = A</td><td>在写成最小项之和形式时经常逆向使用</td></tr>
+      <tr><td>24</td><td>A(A + B) = A</td><td>——</td></tr>
+      <tr><td>25</td><td>AB + A'C + BC = AB + A'C<br>AB + A'C + BCD = AB + A'C</td><td>多余项定律：解决含有多个变量（例如超过5个）的化简问题时常用</td></tr>
+      <tr><td>26</td><td>A(AB)' = AB'；A'(AB)' = A'</td><td>可以看作是公式 21 和 22 的反演式，不用单独记忆</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== 七、逻辑函数及其表示方法 ==================== -->
+<div class="page" id="page-s7">
+  <button class="back-btn" onclick="go('toc')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>返回目录</button>
+  <div class="detail-title">七、逻辑函数及其表示方法</div>
+
+  <div class="section-block">
+    <h4>1. 五种表示方法</h4>
+    <ul>
+      <li><strong>真值表</strong> —— 遍历输入变量所有取值下的输出值，列成表格</li>
+      <li><strong>逻辑函数式</strong> —— 将输出写成输入变量的与、或、非等逻辑运算的组合式</li>
+      <li><strong>逻辑图</strong> —— 逻辑函数式用图形符号表示</li>
+      <li><strong>波形图</strong> —— 输入变量所有取值可能与对应输出的时域波形</li>
+      <li><strong>卡诺图</strong>（见下一节）</li>
+    </ul>
+    <div class="img-block">
+      <img src="屏幕截图 2026-06-09 113125.png" alt="逻辑函数的不同表示方法示例">
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h4>2. 从真值表得到逻辑函数式（重点）</h4>
+    <ol>
+      <li><strong>Step 1：</strong>找出真值表中使逻辑函数输出 Y = 1 的输入变量取值的组合即使 Y = 1 的行</li>
+      <li><strong>Step 2：</strong>使 Y = 1 的每组输入变量取值的组合（即每一行）对应一个乘积项，取值为 1 写入原变量，取值为 0 写入反变量</li>
+      <li><strong>Step 3：</strong>将各行对应的乘积项相加，即最终结果为"与或"形式</li>
+    </ol>
+    <div class="tip">从真值表得到逻辑函数式是几种不同表示方法转换中最重要的一个，因为在后面数字电路的设计学习中，很多时候输入和输出的逻辑关系比较复杂，不能直接看出逻辑函数式，这个时候可以通过遍历得到真值表，再将真值表转化为对应的逻辑函数式。</div>
+    <div class="img-block">
+      <img src="Screenshot_2026-06-09-15-30-08-58_149003a2d400f6a.jpg" alt="从真值表到逻辑函数式的步骤">
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h4>3. 最小项</h4>
+    <p><strong>特点：</strong></p>
+    <ol>
+      <li>全体最小项之和为 1</li>
+      <li>各个最小项之间是互斥的，即任何两个最小项之积为 0；换句话说，对于任何一个特定的输入变量取值，有且仅有一个最小项为 1</li>
+      <li>两个相邻的最小项之和可以合并，消去一对因子，只留下公共因子；这里的"相邻"不是按照自然二进制数编号后的相邻，而是指逻辑上的相邻，规定仅一个变量不同的最小项彼此称为相邻</li>
+    </ol>
+    <div class="img-block">
+      <img src="屏幕截图 2026-06-09 173708.png" alt="最小项的特点">
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h4>4. 最大项</h4>
+    <p><strong>定义：</strong>M 是相加项，包含 n 个因子，n 个变量均以原变量和反变量的形式在 M 中出现一次。</p>
+    <p>可以把最大项看作是对每一个最小项应用反演定理，因此，最大项的编号原则是反的：即原变量记为 0，反变量记为 1，n 位自然二进制数排列后对应的十进制数为编号。</p>
+    <div class="example">
+      例如 A+B+C' 的编号是 001 即 M₁
+    </div>
+    <div class="tip">最小项 mᵢ 与 最大项 Mᵢ 互补：mᵢ = Mᵢ'</div>
+  </div>
+
+  <div class="section-block">
+    <h4>5. 最小项之和与最大项之积的转换</h4>
+    <div class="example">
+      例：Y = A'B + AC<br><br>
+      展开为最小项之和：<br>
+      Y = A'B(C+C') + A(B+B')C = A'BC + A'BC' + ABC + AB'C<br>
+      = m₃ + m₂ + m₇ + m₅ = Σm(2,3,5,7)<br><br>
+      转换为最大项之积：<br>
+      直接变换得到最大项之积过程比较繁琐，因通常应用最小项解决问题！<br>
+      缺失的最小项编号 → 对应的最大项编号：ΠM(0,1,4,6)
+    </div>
+    <div class="img-block">
+      <img src="屏幕截图 2026-06-09 180905.png" alt="最小项之和与最大项之积的转换">
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 八、逻辑函数的化简 ==================== -->
+<div class="page" id="page-s8">
+  <button class="back-btn" onclick="go('toc')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>返回目录</button>
+  <div class="detail-title">八、逻辑函数的化简</div>
+
+  <div class="section-block">
+    <h4>1. 化简的目标</h4>
+    <p>化简为<strong>最简与或式</strong>：使用最少的与门、或门和非门来实现逻辑函数。</p>
+    <div class="img-block">
+      <img src="屏幕截图 2026-06-09 181432.png" alt="化简的目标示例">
+    </div>
+    <div class="example">
+      例：Y = AB'C + ABC' + ABC（两个非门，三个与门，两个或门）<br>
+      化简 → Y = AB + AC（两个与门，一个或门）<br>
+      或者 → Y = A(B + C)（一个与门，一个或门）
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h4>2. 公式化简法</h4>
+    <p>使用前面学习的基本公式和常用公式；对基础要求较高，没有固定的步骤，难以确定结果正确与否，不通用但有时很快速好用。</p>
+    <p>对公式化简法，要求掌握但不必深入研究，熟悉教材上的例题和课后题即可。</p>
+    <div class="tip">
+      一个可能会用到公式化简法的情景是：当逻辑函数含有变量数很多时，即很难直接采用卡诺图去进行化简时，一般题目的设计会使解题时经常需要用 AB + A'C + BCD = AB + A'C 这个公式来消去多余的变量，接着再用卡诺图去进行化简。
+    </div>
+  </div>
+</div>
+
+<script>
+function go(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
